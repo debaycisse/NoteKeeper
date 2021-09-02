@@ -10,6 +10,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.ArrayAdapter
 import com.gads2021_pluralsight.notekeeper.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -19,21 +20,36 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         setSupportActionBar(binding.toolbar)
+
+
+        val dm = DataManager()
+        // ArrayAdapter is a type of adapter that can be used to fetch in-memory data, such as raise or list
+        val adapterCourses = ArrayAdapter<CourseInfo>(this,
+            // the next parameter - is the layout to format the selected item in our spinner
+            android.R.layout.simple_spinner_item,
+            // the last parameter - is the data that we want to retrieve and it is in our DataManager class
+            // we just want a collection of all the courses in the HashMap, we can do that by using the 'value' attribute of Map
+            // And we need to convert this collection into a list
+            dm.courses.values.toList() )
+        // set the layout for our dropdown list whenever the spinner is expanded.
+        adapterCourses.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        // Accessing the spinner
+//        val spinnerCourses = findViewById<View>(R.id.spinnerCourses)
+        binding.contentLayout.spinnerCourses.adapter = adapterCourses
+
+
+
 
         //val navController = findNavController(R.id.nav_host_fragment_content_main)
         //appBarConfiguration = AppBarConfiguration(navController.graph)
         //setupActionBarWithNavController(navController, appBarConfiguration)
-        val fab = findViewById<View>(R.id.fab)
 
-       fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
-        }
+
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
