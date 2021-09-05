@@ -1,12 +1,14 @@
 package com.gads2021_pluralsight.notekeeper
 
 // this class requires properties to hold collection of courses and notes
-class DataManager {
+// To implement singleton, we are making this class to become object, as follows
+object DataManager {
     // this is to hold courses, so that any course can be looked up via courseId
     // HashMap takes 2 data types;
     // 1st is for the lookup value, we're looking up course via courseId which is string type.
     // The 2nd type is the type that will be stored, e.g for our course, the type will be CourseInfo
     val courses = HashMap<String, CourseInfo>()   // this maps courseId to an instance of CourseInfo class
+
 
     // property to hold our collection of note
     // since we want to make it an assign-once (immutable) property, we are using 'val'
@@ -20,6 +22,7 @@ class DataManager {
     // with function we're calling inside init block, we're populating our courses collection with 4 courses
     init {
         initializeCourses()
+        initializeNotes()
     }
 
     // Let's start initializing our dataManager class with data
@@ -47,4 +50,39 @@ class DataManager {
         courses.set(course.id, course)
 
     }
+
+    private fun initializeNotes() {
+        var course = CourseInfo("android_intents", "Android Programming with Intents")
+        var note = NoteInfo(course, "Dynamic intent resolution", "Wow, intents allow components to be resolved at runtime")
+        notes.add(note)
+
+        course = CourseInfo("android_intents", "Android Programming with Intents")
+        note = NoteInfo(course, "Delegating intent", "PendingIntents are powerful; they delegate much more than just a component invocation")
+        notes.add(note)
+
+        course = CourseInfo(id = "android_async", title = "Android Async Programming and Services")
+        note = NoteInfo(course, "Service default threads", "Did you know that by default an Android service will tie up the UI thread")
+        notes.add(note)
+
+        course = CourseInfo(id = "android_async", title = "Android Async Programming and Services")
+        note = NoteInfo(course, "Long running operations", "Foreground services can be tied to a notification icon")
+        notes.add(note)
+
+        course = CourseInfo(title = "Java Fundamentals : The Java Language", id = "java_lang")
+        note = NoteInfo(course, "Parameters", "Leverage variable-length parameter lists")
+        notes.add(note)
+
+        course = CourseInfo(title = "Java Fundamentals : The Java Language", id = "java_lang")
+        note = NoteInfo(course, "Anonymous classes", "Anonymous classes simplify implementing one-use types")
+        notes.add(note)
+
+        course = CourseInfo(title = "Java Fundamentals : The Java Language", id = "java_lang")
+        note = NoteInfo(course, "Compiler options", "The -jar option isn't compatible with the -cp option")
+        notes.add(note)
+
+        course = CourseInfo(title = "Java Fundamentals : The Java Language", id = "java_lang")
+        note = NoteInfo(course, "Serialization", "Remember to include SerialVersionUID to assure version compatibility")
+        notes.add(note)
+    }
+
 }
