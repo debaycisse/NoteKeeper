@@ -89,9 +89,34 @@ class MainActivity : AppCompatActivity() {
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_settings -> true
+            // We're checking to see if the item.itemId corresponds with the menu item that
+            // we created in the menu-main.xml which is menu layout resource
+            R.id.action_next -> {
+                moveNext()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
+    private fun moveNext() {
+        ++notePosition
+        displayNote()
+        invalidateOptionsMenu() // since this method calls onPrepareOptionsMenu(), we place it here so that it is called, each time next is tapped on.
+    }
+
+    // while we override onPrepareOptionsMenu() here
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        if(notePosition >= DataManager.notes.lastIndex){
+            // getting reference to the menu item that we want to change
+            val menuItem = menu?.findItem(R.id.action_next)
+            if(menuItem != null){
+                menuItem.icon = getDrawable(R.drawable.ic_baseline_block_24_red)
+                menuItem.isEnabled = false
+            }
+        }
+
+        return super.onPrepareOptionsMenu(menu)
+    }
 
 }
